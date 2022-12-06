@@ -106,29 +106,29 @@ def get_tokenizer(lang: str, name: str):
 
 def model_prediction_wrap(model, inp_tensor, attention_mask):
     logit = model(inp_tensor, attention_mask=attention_mask)[0]
-    if transformers.__version__ in {'2.4.1', '2.4.0'}:
-        if hasattr(model, 'cls'):  # bert
-            bias = model.cls.predictions.bias
-        elif hasattr(model, 'lm_head'):  # roberta
-            bias = model.lm_head.bias
-        elif hasattr(model, 'pred_layer'):  # xlm
-            bias = 0.0
-        else:
-            raise Exception('not sure whether the bias is correct')
-        logit = logit - bias
-    elif transformers.__version__ in {'2.3.0'}:
-        pass
+#     if transformers.__version__ in {'2.4.1', '2.4.0'}:
+    if hasattr(model, 'cls'):  # bert
+        bias = model.cls.predictions.bias
+    elif hasattr(model, 'lm_head'):  # roberta
+        bias = model.lm_head.bias
+    elif hasattr(model, 'pred_layer'):  # xlm
+        bias = 0.0
     else:
-        raise Exception('not sure whether version {} is correct'.format(transformers.__version__))
+        raise Exception('not sure whether the bias is correct')
+    logit = logit - bias
+#     elif transformers.__version__ in {'2.3.0'}:
+#         pass
+#     else:
+#         raise Exception('not sure whether version {} is correct'.format(transformers.__version__))
     return logit
 
 
 def tokenizer_wrap(tokenizer, lang: str, encode: bool, *args, **kwargs):
     params = dict()
-    if type(tokenizer) is transformers.tokenization_xlm.XLMTokenizer:
-        if lang.startswith('zh-'):
-            lang = 'zh'
-        params = {'lang': lang}
+#     if type(tokenizer) is transformers.tokenization_xlm.XLMTokenizer:
+#         if lang.startswith('zh-'):
+#             lang = 'zh'
+#         params = {'lang': lang}
     if encode:
         return tokenizer.encode(*args, **kwargs, **params)
     else:
