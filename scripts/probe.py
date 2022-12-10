@@ -31,8 +31,8 @@ logger.setLevel(logging.ERROR)
 SUB_LABEL = '##'
 PREFIX_DATA = '../LAMA/'
 VOCAB_PATH = PREFIX_DATA + 'pre-trained_language_models/common_vocab_cased.txt'
-RELATION_PATH = 'data/TREx-relations_auto.jsonl'
-PROMPT_LANG_PATH = 'data/TREx_prompts_es.csv'
+RELATION_PATH = 'data/TREx-relations_auto_5T.jsonl'
+PROMPT_LANG_PATH = 'data/TREx_prompts_es_5T.csv'
 LM_NAME = {
     # multilingual model
     'mbert_base': 'bert-base-multilingual-cased',
